@@ -1,7 +1,16 @@
 class PostsController < ApplicationController
-
   def index
-    @posts = Post.all
+    @authors = Author.all 
+    if !params[:author].blank?
+      @posts = Post.by_author(params[:author])
+    elsif !params[:date].blank?
+      if params[:date] == "Today"
+        @posts = Post.from_today
+      else
+        @posts = Post.old_news
+      end
+    else
+      @posts = Post.all
   end
 
   def show
@@ -26,5 +35,6 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+    end
   end
 end
