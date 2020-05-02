@@ -1,16 +1,44 @@
 class PostsController < ApplicationController
+  helper_method :params
+    # app/controllers/posts_controller.rb
+     
+   def index
+    @authors = Author.all
+    @authors = Author.all
 
-  def index
-    @posts = Post.all
-  end
+    # filter the @posts list based on user input
+    if !params[:author].blank?
+      @posts = Post.by_author(params[:author])
+    elsif !params[:date].blank?
+      if params[:date] == "Today"
+        @posts = Post.from_today
+      else
+        @posts = Post.old_news
+      end
+    else
+      # if no filters are applied, show all posts
+      @posts = Post.all
+    end
+end
 
   def show
     @post = Post.find(params[:id])
   end
 
   def new
-    @post = Post.new
+   if !params[:author].blank?
+  @posts = Post.by_author(params[:author])
+elsif !params[:date].blank?
+ 
   end
+  
+  def self.from_today
+  where("created_at >=?", Time.zone.today.beginning_of_day)
+end
+ 
+def self.old_news
+  where("created_at <?", Time.zone.today.beginning_of_day)
+end
 
   def create
     @post = Post.new(params)
