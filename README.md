@@ -14,7 +14,7 @@ we go!
 Make sure to run `rake db:seed` to get some starter posts and authors.
 You might be surprised to see the big names that definitely wrote these
 example blog posts!
-
+ 
 #### Filtering Posts by Author
 
 We have our list of blog posts, which is great, but our readers would
